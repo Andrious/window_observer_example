@@ -4,183 +4,151 @@
 
 import 'package:window_observer_example/src/view.dart';
 
-class MyApp extends AppStatefulWidget {
-  //StatefulWidget {
-  MyApp({super.key});
+class MyApp extends StatefulWidget {
+  const MyApp({super.key});
+  final imperial = !kIsWeb && true;
+  @override
+  State<StatefulWidget> createState() => _MyAppState();
+}
 
-  // The Route Delegate
-  static final routerDelegate = AppRouterDelegate(PageRoutes());
-
-  /// Go to the next route
-  static void nextRoute(BuildContext context) {
-    final state = context.findRootAncestorStateOfType<_MyAppState>();
-    state?.nextRoute(context);
+class _MyAppState extends State<MyApp> {
+  //
+  @override
+  Widget build(BuildContext context) {
+    if (widget.imperial) {
+      return MaterialApp(
+        title: 'Demo App',
+        routes: {
+          '/': (_) => const HomePage(),
+          '/page1': (_) => const Page1(),
+          '/page2': (_) => const Page2(),
+          '/page3': (_) => const Page3(),
+          '/page4': (_) => const Page4(),
+          '/page5': (_) => const Page5(),
+          '/page6': (_) => const Page6(),
+          '/page7': (_) => const Page7(),
+          '/page8': (_) => const Page8(),
+          '/page9': (_) => const Page9(),
+        },
+        navigatorObservers: [StateXRouteObserver.routeObserver!],
+      );
+    } else {
+      return MaterialApp.router(
+        title: 'Demo App',
+        routerConfig: GoRouter(
+          routes: <RouteBase>[
+            GoRoute(
+              path: '/',
+              builder: (BuildContext context, GoRouterState state) {
+                return const HomePage();
+              },
+            ),
+            GoRoute(
+              path: '/page1',
+              builder: (BuildContext context, GoRouterState state) {
+                return const Page1();
+              },
+            ),
+            GoRoute(
+              path: '/page2',
+              builder: (BuildContext context, GoRouterState state) {
+                return const Page2();
+              },
+            ),
+            GoRoute(
+              path: '/page3',
+              builder: (BuildContext context, GoRouterState state) {
+                return const Page3();
+              },
+            ),
+            GoRoute(
+              path: '/page4',
+              builder: (BuildContext context, GoRouterState state) {
+                return const Page4();
+              },
+            ),
+            GoRoute(
+              path: '/page5',
+              builder: (BuildContext context, GoRouterState state) {
+                return const Page5();
+              },
+            ),
+            GoRoute(
+              path: '/page6',
+              builder: (BuildContext context, GoRouterState state) {
+                return const Page6();
+              },
+            ),
+            GoRoute(
+              path: '/page7',
+              builder: (BuildContext context, GoRouterState state) {
+                return const Page7();
+              },
+            ),
+            GoRoute(
+              path: '/page8',
+              builder: (BuildContext context, GoRouterState state) {
+                return const Page8();
+              },
+            ),
+            GoRoute(
+              path: '/page9',
+              builder: (BuildContext context, GoRouterState state) {
+                return const Page9();
+              },
+            ),
+          ],
+          debugLogDiagnostics: true,
+        ),
+      );
+    }
   }
+}
 
-  // @override
-  // State createState() =>  _MyAppState();
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
 
   @override
-  AppState<StatefulWidget> createAppState() => _MyAppState();
-}
-
-class _MyAppState extends AppState<MyApp> {
-  _MyAppState()
-      : super(
-          title: 'Demo App',
-          routerConfig: GoRouter(
-            routes: <RouteBase>[
-              GoRoute(
-                path: '/',
-                builder: (BuildContext context, GoRouterState state) {
-                  return Page1(key: UniqueKey());
-                },
-                routes: <RouteBase>[
-                  GoRoute(
-                    path: 'page2',
-                    builder: (BuildContext context, GoRouterState state) {
-                      return const Page2();
-                    },
-                    routes: <RouteBase>[
-                      GoRoute(
-                        path: 'page3',
-                        builder: (BuildContext context, GoRouterState state) {
-                          return const Page3();
-                        },
-                        routes: <RouteBase>[
-                          GoRoute(
-                            path: 'page4',
-                            builder:
-                                (BuildContext context, GoRouterState state) {
-                              return const Page4();
-                            },
-                            routes: <RouteBase>[
-                              GoRoute(
-                                path: 'page5',
-                                builder: (BuildContext context,
-                                    GoRouterState state) {
-                                  return const Page5();
-                                },
-                                routes: <RouteBase>[
-                                  GoRoute(
-                                    path: 'page6',
-                                    builder: (BuildContext context,
-                                        GoRouterState state) {
-                                      return const Page6();
-                                    },
-                                    routes: <RouteBase>[
-                                      GoRoute(
-                                        path: 'page7',
-                                        builder: (BuildContext context,
-                                            GoRouterState state) {
-                                          return const Page7();
-                                        },
-                                        routes: <RouteBase>[
-                                          GoRoute(
-                                            path: 'page8',
-                                            builder: (BuildContext context,
-                                                GoRouterState state) {
-                                              return const Page8();
-                                            },
-                                            routes: <RouteBase>[
-                                              GoRoute(
-                                                path: 'page9',
-                                                builder: (BuildContext context,
-                                                    GoRouterState state) {
-                                                  return const Page9();
-                                                },
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
+  Widget build(BuildContext context) {
+    assert(() {
+      if (kDebugMode) {
+        print('###########  build() in $this');
+      }
+      return true;
+    }());
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            const Padding(
+              padding: EdgeInsets.only(bottom: 90),
+              child: Text(
+                'Home',
+                style: TextStyle(fontSize: 50),
               ),
-            ],
-          ),
-        );
-
-  // @override
-  // Widget buildIn(BuildContext context) => const MaterialApp(
-  //       home: Page1(),
-  //     );
-
-  //  @override
-  //   Widget buildIn(BuildContext context) => MaterialApp(
-  //         home: Page1(key: UniqueKey()),
-  //       );
-
-  // @override
-  // Widget buildIn(BuildContext context) => MaterialApp.router(
-  //       routerDelegate: MyApp.routerDelegate,
-  //       routeInformationParser:
-  //           AppRouterInformationParser(PageRoutes().widgets),
-  //     );
-
-  /// Simply turn to the Router and determine the next page to go to.
-  void nextRoute(BuildContext context) {
-    //
-    String path = '';
-    RouteBase? routeBase;
-    final router = GoRouter.of(context);
-    final matches = router.routerDelegate.currentConfiguration.matches;
-    if (matches.isNotEmpty) {
-      final routeMatch = matches.last;
-      path = routeMatch.subloc;
-      var routes = routeMatch.route.routes;
-      if (routes.isNotEmpty) {
-        routeBase = routes.first;
-      }
-      for (final routeMatch in matches) {
-        path = routeMatch.subloc;
-        // Determine if this is a recursive path and find the next path
-        var routes = routeMatch.route.routes;
-        if (routes.isNotEmpty) {
-          routeBase = routes.first;
-        }
-      }
-    }
-    if (routeBase != null) {
-      final goRoute = routeBase as GoRoute;
-      path = '$path/${goRoute.path}';
-      path = path.replaceAll('//', '/');
-      router.go(path);
-    }
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 50),
+              child: ElevatedButton(
+                onPressed: () async {
+                  final app =
+                      context.findAncestorWidgetOfExactType<MaterialApp>()!;
+                  if (app.routerDelegate == null && app.routerConfig == null) {
+                    await Navigator.pushNamed(context, '/page1');
+                  } else {
+                    final router = GoRouter.of(context);
+                    router.push('/page1');
+                  }
+                },
+                child: const Text('Page 1'),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
-
-// /// The State object is no longer in paused state and now receptive to user input.
-// /// The application is visible again.
-// @override
-// void resumedAppLifecycleState() {
-//   setState(() {});
-// }
-}
-
-class PageRoutes extends AppPages {
-  factory PageRoutes() => _this ??= PageRoutes._();
-  PageRoutes._()
-      : super({
-          '1': Page1(key: UniqueKey()),
-          '2': const Page2(),
-          '3': const Page3(),
-          '4': const Page4(),
-          '5': const Page5(),
-          '6': const Page6(),
-          '7': const Page7(),
-          '8': const Page8(),
-          '9': const Page9(),
-        });
-  static PageRoutes? _this;
 }
 
 class Page1 extends CounterWidget {

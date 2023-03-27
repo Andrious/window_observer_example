@@ -1,29 +1,20 @@
-/*
 //
 //   Superclass for CounterState
 //
 
-import 'package:window_observer_example/src/_imports.dart';
-
-abstract class StatefulStateWidget extends StatefulWidget {
-  const StatefulStateWidget({super.key, this.title});
-  final String? title;
-
-  @override
-  State<StatefulWidget> createState();
-}
+import 'package:window_observer_example/src/view.dart';
 
 // ignore: prefer_mixin
-abstract class StateXXXX<T extends StatefulStateWidget> extends State<T>
+abstract class StateX<T extends StatefulWidget> extends State<T>
     with RouteAware
     implements WidgetsBindingObserver {
-  StateXXXX() : stateRouteObserver = StateXRouteObserver() {
+  StateX() : stateRouteObserver = StateXRouteObserver() {
     currentState = this;
   }
 
   final StateXRouteObserver stateRouteObserver;
 
-  static late StateXXXX currentState;
+  static late StateX currentState;
 
   // Whether the State object will remain active.
   static bool? keepActive = true;
@@ -44,19 +35,71 @@ abstract class StateXXXX<T extends StatefulStateWidget> extends State<T>
   // Allow the setState() method to fire.
   bool _canSetState = true;
 
+  /// Simply turn to the Router and determine the next page to go to.
+  void nextRoute(String path) {
+    //
+    if (router == null) {
+      Navigator.pushNamed(context, path);
+    } else {
+      router?.push(path);
+    }
+
+    // //
+    // String path = '';
+    // RouteBase? routeBase;
+    // final router = GoRouter.of(context);
+    // final matches = router.routerDelegate.currentConfiguration.matches;
+    // if (matches.isNotEmpty) {
+    //   final routeMatch = matches.last;
+    //   path = routeMatch.subloc;
+    //   var routes = routeMatch.route.routes;
+    //   if (routes.isNotEmpty) {
+    //     routeBase = routes.first;
+    //   }
+    //   for (final routeMatch in matches) {
+    //     path = routeMatch.subloc;
+    //     // Determine if this is a recursive path and find the next path
+    //     var routes = routeMatch.route.routes;
+    //     if (routes.isNotEmpty) {
+    //       routeBase = routes.first;
+    //     }
+    //   }
+    // }
+    // if (routeBase != null) {
+    //   final goRoute = routeBase as GoRoute;
+    //   path = '$path/${goRoute.path}';
+    //   path = path.replaceAll('//', '/');
+    //   router.go(path);
+    // }
+  }
+
   @override
   void initState() {
     super.initState();
     // Registers the given object as a binding observer. Binding
     // observers are notified when various application events occur
     WidgetsBinding.instance.addObserver(this);
+    app ??= context.findAncestorWidgetOfExactType<MaterialApp>()!;
   }
+
+  static MaterialApp? app;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     // Subscribe this to be informed about changes to route.
     stateRouteObserver.subscribe(this);
+    if (app!.routerDelegate != null || app!.routerConfig != null) {
+      router ??= GoRouter.of(context);
+    }
+  }
+
+  // Used to navigate from screen to screen.
+  static GoRouter? router;
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   /// Determine if the setState() method should be called.
@@ -120,7 +163,7 @@ abstract class StateXXXX<T extends StatefulStateWidget> extends State<T>
     return didPushRoute(routeInformation.location!);
   }
 
-  // Called when the top route has been popped off, and the current route shows up.
+  // Called when the top route has been popped off, and this route now is visible.
   @override
   void didPopNext() {
     if (kDebugMode) {
@@ -189,19 +232,14 @@ abstract class StateXXXX<T extends StatefulStateWidget> extends State<T>
     /// First, process the State object's own event functions.
     switch (state) {
       case AppLifecycleState.inactive:
-        inactiveAppLifecycleState();
         break;
       case AppLifecycleState.paused:
-        pausedAppLifecycleState();
         break;
       case AppLifecycleState.detached:
-        detachedAppLifecycleState();
         break;
       case AppLifecycleState.resumed:
-        resumedAppLifecycleState();
         break;
       default:
-        unknownAppLifecycleState();
     }
     if (kDebugMode) {
       print(
@@ -222,43 +260,12 @@ abstract class StateXXXX<T extends StatefulStateWidget> extends State<T>
       print('###########  didChangeAccessibilityFeatures() in $this');
     }
   }
-
-  /// Subclasses are encouraged to implement these methods
-  /// so to handle their corresponding events.
-  ///
-  void inactiveAppLifecycleState() {
-    /// The State object is set to an inactive state and is not receiving user input.
-    /// The pause state is likely to occur soon after.
-  }
-
-  void pausedAppLifecycleState() {
-    /// The application is not currently visible to the user, not responding to
-    /// user input, and running in the background.
-  }
-
-  void detachedAppLifecycleState() {
-    /// The State object is detached from the widget tree.
-    /// It very likely the dispose() function will be called sometime later.
-  }
-
-  void resumedAppLifecycleState() {
-    /// The State object is no longer in paused state and now receptive to user input.
-    /// The application is visible again.
-  }
-
-  void unknownAppLifecycleState() {
-    /// This should never be called, but there you are.
-  }
 }
 
 /// A helper class. Manages the use of a RouteObserver that subscribes State objects.
 class StateXRouteObserver {
-  StateXRouteObserver() {
-    // Only need to instantiate once.
-    routeObserver ??= RouteObserver<PageRoute>();
-  }
   // Supply the means to 'observe' the Flutter's routing mechanism
-  static RouteObserver<PageRoute>? routeObserver;
+  static RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
 
   bool subscribe(State state) {
     bool subscribed = state is RouteAware;
@@ -266,9 +273,8 @@ class StateXRouteObserver {
       final modelRoute = ModalRoute.of(state.context);
       subscribed = modelRoute != null && modelRoute is PageRoute;
       if (subscribed) {
-        final latest = modelRoute.isActive;
         // So to be informed when there are changes to route.
-        routeObserver?.subscribe(state as RouteAware, modelRoute);
+        routeObserver.subscribe(state as RouteAware, modelRoute);
       }
     }
     return subscribed;
@@ -277,9 +283,8 @@ class StateXRouteObserver {
   bool unsubscribe(State state) {
     bool subscribed = state is RouteAware;
     if (subscribed) {
-      routeObserver?.unsubscribe(state as RouteAware);
+      routeObserver.unsubscribe(state as RouteAware);
     }
     return subscribed;
   }
 }
-*/
