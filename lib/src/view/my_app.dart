@@ -6,7 +6,7 @@ import 'package:window_observer_example/src/view.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
-  final imperial = !kIsWeb && true;
+  final useImperial = !kIsWeb && false;
   @override
   State<StatefulWidget> createState() => _MyAppState();
 }
@@ -15,7 +15,7 @@ class _MyAppState extends State<MyApp> {
   //
   @override
   Widget build(BuildContext context) {
-    if (widget.imperial) {
+    if (widget.useImperial) {
       return MaterialApp(
         title: 'Demo App',
         routes: {
@@ -30,12 +30,13 @@ class _MyAppState extends State<MyApp> {
           '/page8': (_) => const Page8(),
           '/page9': (_) => const Page9(),
         },
-        navigatorObservers: [StateXRouteObserver.routeObserver!],
+        navigatorObservers: [StateXRouteObserver.routeObserver],
       );
     } else {
       return MaterialApp.router(
         title: 'Demo App',
         routerConfig: GoRouter(
+          observers: [StateXRouteObserver.routeObserver],
           routes: <RouteBase>[
             GoRoute(
               path: '/',
