@@ -2,6 +2,8 @@
 //   Superclass for CounterState
 //
 
+import 'dart:ui' show AppExitResponse;
+
 import 'package:window_observer_example/src/view.dart';
 
 // ignore: prefer_mixin
@@ -87,8 +89,8 @@ abstract class StateX<T extends StatefulWidget> extends State<T>
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    // Subscribe this to be informed about changes to route.
-    stateRouteObserver.subscribe(this);
+    // // Subscribe this to be informed about changes to route.
+    // stateRouteObserver.subscribe(this);
     if (app!.routerDelegate != null || app!.routerConfig != null) {
       router ??= GoRouter.of(context);
     }
@@ -120,19 +122,19 @@ abstract class StateX<T extends StatefulWidget> extends State<T>
   @override
   void activate() {
     super.activate();
-    // Register this given observer.
-    WidgetsBinding.instance.addObserver(this);
-    // Subscribe this to be informed about changes to route.
-    stateRouteObserver.subscribe(this);
+    // // Register this given observer.
+    // WidgetsBinding.instance.addObserver(this);
+    // // Subscribe this to be informed about changes to route.
+    // stateRouteObserver.subscribe(this);
   }
 
   @override
   void deactivate() {
     super.deactivate();
-    // Unregisters this given observer.
-    WidgetsBinding.instance.removeObserver(this);
-    // No longer informed about changes to its route.
-    stateRouteObserver.unsubscribe(this);
+    // // Unregisters this given observer.
+    // WidgetsBinding.instance.removeObserver(this);
+    // // No longer informed about changes to its route.
+    // stateRouteObserver.unsubscribe(this);
   }
 
   /// This is not reliable in that any other 'observer' happens to return true
@@ -248,6 +250,14 @@ abstract class StateX<T extends StatefulWidget> extends State<T>
   }
 
   @override
+  Future<AppExitResponse> didRequestAppExit() async {
+    if (kDebugMode) {
+      print('###########  didRequestAppExit() in $this');
+    }
+    return AppExitResponse.exit;
+  }
+
+  @override
   void didHaveMemoryPressure() {
     if (kDebugMode) {
       print('###########  didHaveMemoryPressure() in $this');
@@ -260,6 +270,55 @@ abstract class StateX<T extends StatefulWidget> extends State<T>
       print('###########  didChangeAccessibilityFeatures() in $this');
     }
   }
+}
+
+///
+abstract class StatefulXWidget extends StatefulWidget {
+  ///
+  const StatefulXWidget({super.key});
+
+  @override
+  StatefulElement createElement() => StatefulXElement(this);
+}
+
+///
+class StatefulXElement extends StatefulElement {
+  ///
+  StatefulXElement(super.widget);
+
+  @override
+  void didChangeDependencies() {
+    if (kDebugMode) {
+      print('###########  didChangeDependencies() in $this');
+    }
+    super.didChangeDependencies();
+  }
+
+  @override
+  void markNeedsBuild() {
+    if (kDebugMode) {
+      print('###########  markNeedsBuild() in $this');
+    }
+    super.markNeedsBuild();
+  }
+
+  // @override
+  // InheritedWidget dependOnInheritedElement(Element ancestor, {Object? aspect}) {
+  //   if (kDebugMode) {
+  //     print('###########  dependOnInheritedElement() in $this with $ancestor');
+  //   }
+  //   return super.dependOnInheritedElement(ancestor, aspect: aspect);
+  // }
+
+  @override
+  void performRebuild() => super.performRebuild();
+
+  @override
+  void update(StatefulWidget newWidget) => super.update(newWidget);
+
+  @override
+  Element? updateChild(Element? child, Widget? newWidget, Object? newSlot) =>
+      super.updateChild(child, newWidget, newSlot);
 }
 
 /// A helper class. Manages the use of a RouteObserver that subscribes State objects.

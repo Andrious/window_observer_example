@@ -4,11 +4,11 @@
 
 import 'package:window_observer_example/src/view.dart';
 
-abstract class CounterWidget extends StatefulWidget {
+abstract class CounterWidget extends StatefulXWidget {
   const CounterWidget({super.key, this.title});
   final String? title;
   @override
-  State<StatefulWidget> createState();
+  State createState();
 }
 
 /// Supplies a counter and interface to the widgets above.

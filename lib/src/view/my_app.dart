@@ -155,7 +155,7 @@ class HomePage extends StatelessWidget {
 class Page1 extends CounterWidget {
   const Page1({super.key, super.title = 'Page 1'});
   @override
-  State<StatefulWidget> createState() => _Page1State();
+  State createState() => _Page1State();
 }
 
 class _Page1State extends CounterState<Page1> {
@@ -171,7 +171,7 @@ class _Page1State extends CounterState<Page1> {
 class Page2 extends CounterWidget {
   const Page2({super.key, super.title = 'Page 2'});
   @override
-  State<StatefulWidget> createState() => _Page2State();
+  State createState() => _Page2State();
 }
 
 class _Page2State extends CounterState<Page2> {
@@ -187,7 +187,7 @@ class _Page2State extends CounterState<Page2> {
 class Page3 extends CounterWidget {
   const Page3({super.key, super.title = 'Page 3'});
   @override
-  State<StatefulWidget> createState() => _Page3State();
+  State createState() => _Page3State();
 }
 
 class _Page3State extends CounterState<Page3> {
@@ -203,7 +203,7 @@ class _Page3State extends CounterState<Page3> {
 class Page4 extends CounterWidget {
   const Page4({super.key, super.title = 'Page 4'});
   @override
-  State<StatefulWidget> createState() => _Page4State();
+  State createState() => _Page4State();
 }
 
 class _Page4State extends CounterState<Page4> {
@@ -219,7 +219,7 @@ class _Page4State extends CounterState<Page4> {
 class Page5 extends CounterWidget {
   const Page5({super.key, super.title = 'Page 5'});
   @override
-  State<StatefulWidget> createState() => _Page5State();
+  State createState() => _Page5State();
 }
 
 class _Page5State extends CounterState<Page5> {
@@ -235,7 +235,7 @@ class _Page5State extends CounterState<Page5> {
 class Page6 extends CounterWidget {
   const Page6({super.key, super.title = 'Page 6'});
   @override
-  State<StatefulWidget> createState() => _Page6State();
+  State createState() => _Page6State();
 }
 
 class _Page6State extends CounterState<Page6> {
@@ -251,7 +251,7 @@ class _Page6State extends CounterState<Page6> {
 class Page7 extends CounterWidget {
   const Page7({super.key, super.title = 'Page 7'});
   @override
-  State<StatefulWidget> createState() => _Page7State();
+  State createState() => _Page7State();
 }
 
 class _Page7State extends CounterState<Page7> {
@@ -267,7 +267,7 @@ class _Page7State extends CounterState<Page7> {
 class Page8 extends CounterWidget {
   const Page8({super.key, super.title = 'Page 8'});
   @override
-  State<StatefulWidget> createState() => _Page8State();
+  State createState() => _Page8State();
 }
 
 class _Page8State extends CounterState<Page8> {
@@ -283,7 +283,7 @@ class _Page8State extends CounterState<Page8> {
 class Page9 extends CounterWidget {
   const Page9({super.key, super.title = 'Page 9'});
   @override
-  State<StatefulWidget> createState() => _Page9State();
+  State createState() => _Page9State();
 }
 
 class _Page9State extends CounterState<Page9> {

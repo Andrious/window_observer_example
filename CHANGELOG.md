@@ -1,4 +1,8 @@
 
+## 1.2.0
+June 13, 2023
+- Removed WidgetsBinding.instance.addObserver(this);  
+
 ## 1.1.0+1
 March 27, 2023
 - MaterialApp or MaterialApp.router
