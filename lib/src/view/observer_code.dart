@@ -45,34 +45,6 @@ abstract class StateX<T extends StatefulWidget> extends State<T>
     } else {
       router?.push(path);
     }
-
-    // //
-    // String path = '';
-    // RouteBase? routeBase;
-    // final router = GoRouter.of(context);
-    // final matches = router.routerDelegate.currentConfiguration.matches;
-    // if (matches.isNotEmpty) {
-    //   final routeMatch = matches.last;
-    //   path = routeMatch.subloc;
-    //   var routes = routeMatch.route.routes;
-    //   if (routes.isNotEmpty) {
-    //     routeBase = routes.first;
-    //   }
-    //   for (final routeMatch in matches) {
-    //     path = routeMatch.subloc;
-    //     // Determine if this is a recursive path and find the next path
-    //     var routes = routeMatch.route.routes;
-    //     if (routes.isNotEmpty) {
-    //       routeBase = routes.first;
-    //     }
-    //   }
-    // }
-    // if (routeBase != null) {
-    //   final goRoute = routeBase as GoRoute;
-    //   path = '$path/${goRoute.path}';
-    //   path = path.replaceAll('//', '/');
-    //   router.go(path);
-    // }
   }
 
   @override
@@ -118,24 +90,6 @@ abstract class StateX<T extends StatefulWidget> extends State<T>
   /// Implement this
   @override
   Widget build(BuildContext context);
-
-  @override
-  void activate() {
-    super.activate();
-    // // Register this given observer.
-    // WidgetsBinding.instance.addObserver(this);
-    // // Subscribe this to be informed about changes to route.
-    // stateRouteObserver.subscribe(this);
-  }
-
-  @override
-  void deactivate() {
-    super.deactivate();
-    // // Unregisters this given observer.
-    // WidgetsBinding.instance.removeObserver(this);
-    // // No longer informed about changes to its route.
-    // stateRouteObserver.unsubscribe(this);
-  }
 
   /// This is not reliable in that any other 'observer' happens to return true
   /// will prevent this function from firing.  Use RouteObserver instead.

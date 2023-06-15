@@ -1,4 +1,8 @@
 
+## 1.3.0
+June 15, 2023
+- Introduce context.push('/page1');
+
 ## 1.2.0
 June 13, 2023
 - Removed WidgetsBinding.instance.addObserver(this);  

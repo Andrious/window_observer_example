@@ -138,8 +138,9 @@ class HomePage extends StatelessWidget {
                   if (app.routerDelegate == null && app.routerConfig == null) {
                     await Navigator.pushNamed(context, '/page1');
                   } else {
-                    final router = GoRouter.of(context);
-                    router.push('/page1');
+                    // final router = GoRouter.of(context);
+                    // router.push('/page1');
+                    context.push('/page1');
                   }
                 },
                 child: const Text('Page 1'),
